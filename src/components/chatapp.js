@@ -1,7 +1,8 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { Auth } from 'aws-amplify'
-import { graphql, compose } from 'react-apollo'
+import { graphql } from "react-apollo";
+import { flowRight as compose } from "lodash";
 import { getUser } from '../graphql/queries'
 import {
   registerUser,
