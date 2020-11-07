@@ -12,7 +12,10 @@ const awsmobile = {
     "aws_appsync_region": "eu-west-2",
     "aws_appsync_authenticationType": "AMAZON_COGNITO_USER_POOLS",
     "aws_user_files_s3_bucket": "awsappsyncchatstartee4b8e477ce7b4ec5a16a4b9922d221529-chatenv",
-    "aws_user_files_s3_bucket_region": "eu-west-2"
+    "aws_user_files_s3_bucket_region": "eu-west-2",
+    "aws_content_delivery_bucket": "awsappsyncchatstarte-20201107113438-hostingbucket-chatenv",
+    "aws_content_delivery_bucket_region": "eu-west-2",
+    "aws_content_delivery_url": "https://d1yzhzyprx3ra9.cloudfront.net"
 };
 
 

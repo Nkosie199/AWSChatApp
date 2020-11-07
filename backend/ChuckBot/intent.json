@@ -4,7 +4,7 @@
   "fulfillmentActivity": {
     "type": "CodeHook",
     "codeHook": {
-      "uri": "<LAMBDA_ARN>",
+      "uri": "arn:aws:lambda:eu-west-2:465277319203:function:amplify-awsappsyncchatstarte-chatenv-2215-ChuckBot-LGJDIWZ0KI9I",
       "messageVersion": "1.0"
     }
   },
