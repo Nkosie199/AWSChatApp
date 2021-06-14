@@ -1,8 +1,8 @@
 {
-    "identityPoolName": "awsappsyncchatstarte52dfc750_identitypool_52dfc750",
-    "allowUnauthenticatedIdentities": false,
-    "resourceNameTruncated": "awsapp52dfc750",
-    "userPoolName": "awsappsyncchatstarte52dfc750_userpool_52dfc750",
+    "identityPoolName": "awsappsyncchatstarte2e26f7b8_identitypool_2e26f7b8",
+    "allowUnauthenticatedIdentities": true,
+    "resourceNameTruncated": "awsapp2e26f7b8",
+    "userPoolName": "awsappsyncchatstarte2e26f7b8_userpool_2e26f7b8",
     "autoVerifiedAttributes": [
         "email"
     ],
@@ -20,18 +20,19 @@
     "requiredAttributes": [
         "email"
     ],
-    "userpoolClientGenerateSecret": false,
-    "userpoolClientRefreshTokenValidity": 30,
+    "userpoolClientGenerateSecret": true,
+    "userpoolClientRefreshTokenValidity": "90",
     "userpoolClientWriteAttributes": [
+        "nickname",
         "email"
     ],
     "userpoolClientReadAttributes": [
         "email"
     ],
-    "userpoolClientLambdaRole": "awsapp52dfc750_userpoolclient_lambda_role",
-    "userpoolClientSetAttributes": false,
-    "sharedId": "52dfc750",
-    "resourceName": "awsappsyncchatstarte52dfc750",
+    "userpoolClientLambdaRole": "awsapp2e26f7b8_userpoolclient_lambda_role",
+    "userpoolClientSetAttributes": true,
+    "sharedId": "2e26f7b8",
+    "resourceName": "awsappsyncchatstarte2e26f7b8",
     "authSelections": "identityPoolAndUserPool",
     "authRoleArn": {
         "Fn::GetAtt": [
@@ -45,8 +46,19 @@
             "Arn"
         ]
     },
-    "useDefault": "default",
+    "useDefault": "manual",
     "userPoolGroupList": [],
     "serviceName": "Cognito",
-    "dependsOn": []
+    "dependsOn": [],
+    "thirdPartyAuth": false,
+    "userPoolGroups": false,
+    "adminQueries": false,
+    "triggers": "{}",
+    "hostedUI": false,
+    "parentStack": {
+        "Ref": "AWS::StackId"
+    },
+    "breakCircularDependency": false,
+    "permissions": [],
+    "authProviders": []
 }

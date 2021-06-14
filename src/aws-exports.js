@@ -3,19 +3,19 @@
 
 const awsmobile = {
     "aws_project_region": "eu-west-2",
-    "aws_cognito_identity_pool_id": "eu-west-2:5e95bb0b-d825-4324-98a9-5c68d5aaf182",
+    "aws_cognito_identity_pool_id": "eu-west-2:dda79c92-baca-4609-9b27-9f767e0af67c",
     "aws_cognito_region": "eu-west-2",
-    "aws_user_pools_id": "eu-west-2_FqMSQJASf",
-    "aws_user_pools_web_client_id": "6o2k1t585aq653i41d2ksi02mj",
+    "aws_user_pools_id": "eu-west-2_zfXTfgUTq",
+    "aws_user_pools_web_client_id": "5jfl4pmhj9del3d10tbgda1i47",
     "oauth": {},
-    "aws_appsync_graphqlEndpoint": "https://gkh3p3lplfgchowrrnaaju2cje.appsync-api.eu-west-2.amazonaws.com/graphql",
+    "aws_appsync_graphqlEndpoint": "https://jbi6fgw2kjeazdzqxfw76utlkm.appsync-api.eu-west-2.amazonaws.com/graphql",
     "aws_appsync_region": "eu-west-2",
     "aws_appsync_authenticationType": "AMAZON_COGNITO_USER_POOLS",
-    "aws_user_files_s3_bucket": "awsappsyncchatstartee4b8e477ce7b4ec5a16a4b9922d221529-chatenv",
+    "aws_user_files_s3_bucket": "awsappsyncchatstartee4b8e477ce7b4ec5a16a4b9922d185831-starter",
     "aws_user_files_s3_bucket_region": "eu-west-2",
-    "aws_content_delivery_bucket": "awsappsyncchatstarte-20201107113438-hostingbucket-chatenv",
+    "aws_content_delivery_bucket": "awsappsyncchatstarte-20201107113438-hostingbucket-starter",
     "aws_content_delivery_bucket_region": "eu-west-2",
-    "aws_content_delivery_url": "https://d1yzhzyprx3ra9.cloudfront.net"
+    "aws_content_delivery_url": "https://d2fltdhpe04z87.cloudfront.net"
 };
 
 

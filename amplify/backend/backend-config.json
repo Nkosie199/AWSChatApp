@@ -1,6 +1,6 @@
 {
   "auth": {
-    "awsappsyncchatstarte52dfc750": {
+    "awsappsyncchatstarte2e26f7b8": {
       "service": "Cognito",
       "providerPlugin": "awscloudformation",
       "dependsOn": [],
@@ -8,7 +8,7 @@
     }
   },
   "api": {
-    "starter": {
+    "awsappsyncchatstarte": {
       "service": "AppSync",
       "providerPlugin": "awscloudformation",
       "output": {
@@ -16,7 +16,7 @@
           "defaultAuthentication": {
             "authenticationType": "AMAZON_COGNITO_USER_POOLS",
             "userPoolConfig": {
-              "userPoolId": "authawsappsyncchatstarte52dfc750"
+              "userPoolId": "authawsappsyncchatstarte2e26f7b8"
             }
           },
           "additionalAuthenticationProviders": []
@@ -24,12 +24,34 @@
       }
     }
   },
-  "function": {},
-  "storage": {
-    "starter": {
-      "service": "S3",
-      "providerPlugin": "awscloudformation"
+  "function": {
+    "S3Trigger8a9d5224": {
+      "service": "Lambda",
+      "providerPlugin": "awscloudformation",
+      "build": true
     }
   },
-  "hosting": {}
+  "storage": {
+    "s328647904": {
+      "service": "S3",
+      "providerPlugin": "awscloudformation",
+      "dependsOn": [
+        {
+          "category": "function",
+          "resourceName": "S3Trigger8a9d5224",
+          "attributes": [
+            "Name",
+            "Arn",
+            "LambdaExecutionRole"
+          ]
+        }
+      ]
+    }
+  },
+  "hosting": {
+    "S3AndCloudFront": {
+      "service": "S3AndCloudFront",
+      "providerPlugin": "awscloudformation"
+    }
+  }
 }

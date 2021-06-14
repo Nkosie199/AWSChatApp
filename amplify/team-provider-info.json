@@ -34,7 +34,14 @@
     },
     "categories": {
       "auth": {
-        "awsappsyncchatstarte52dfc750": {}
+        "awsappsyncchatstarte52dfc750": {},
+        "awsappsyncchatstarte2e26f7b8": {}
+      },
+      "function": {
+        "S3Trigger8a9d5224": {
+          "deploymentBucketName": "amplify-awsappsyncchatstarte-starter-185831-deployment",
+          "s3Key": "amplify-builds/S3Trigger8a9d5224-4c6d542f6c5475783454-build.zip"
+        }
       }
     }
   }
