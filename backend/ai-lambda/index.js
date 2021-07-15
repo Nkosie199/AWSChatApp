@@ -14,7 +14,7 @@ exports.handler = (event, context, callback) => {
         botAlias: "$LATEST",
         botName: event.arguments.bot,
         inputText: event.arguments.text,
-        userId: event.arguments.sender
+        userId: event.arguments.sender,
       };
       lex.postText(lexparams, function(err, data) {
         if (err) {
@@ -24,7 +24,7 @@ exports.handler = (event, context, callback) => {
           let result = {
             bot: event.arguments.bot,
             text: event.arguments.text,
-            response: data.message
+            response: data.message,
           };
           callback(null, result);
         }
@@ -35,11 +35,11 @@ exports.handler = (event, context, callback) => {
         Image: {
           S3Object: {
             Bucket: event.arguments.bucket,
-            Name: event.arguments.key
-          }
+            Name: event.arguments.key,
+          },
         },
         MaxLabels: 5,
-        MinConfidence: 70
+        MinConfidence: 70,
       };
       rekognition.detectLabels(labelRekogparams, function(err, data) {
         if (err) {
@@ -50,7 +50,7 @@ exports.handler = (event, context, callback) => {
           let result = {
             bucket: event.arguments.bucket,
             key: event.arguments.key,
-            response: data.Labels
+            response: data.Labels,
           };
           callback(null, result);
         }
@@ -61,9 +61,9 @@ exports.handler = (event, context, callback) => {
         Image: {
           S3Object: {
             Bucket: event.arguments.bucket,
-            Name: event.arguments.key
-          }
-        }
+            Name: event.arguments.key,
+          },
+        },
       };
       rekognition.recognizeCelebrities(celebRekogparams, function(err, data) {
         if (err) {
@@ -74,7 +74,7 @@ exports.handler = (event, context, callback) => {
           let result = {
             bucket: event.arguments.bucket,
             key: event.arguments.key,
-            response: data.CelebrityFaces
+            response: data.CelebrityFaces,
           };
           callback(null, result);
         }
@@ -84,7 +84,7 @@ exports.handler = (event, context, callback) => {
       const pollyparams = {
         OutputFormat: "mp3",
         Text: event.arguments.text,
-        VoiceId: event.arguments.voice
+        VoiceId: event.arguments.voice,
       };
       polly
         .synthesizeSpeech(pollyparams)
@@ -104,7 +104,7 @@ exports.handler = (event, context, callback) => {
       let result = {
         bucket: event.arguments.bucket,
         key: event.arguments.key + ".mp3",
-        response: url
+        response: url,
       };
       callback(null, result);
       break;
@@ -112,7 +112,7 @@ exports.handler = (event, context, callback) => {
       const translateParams = {
         SourceLanguageCode: "auto",
         TargetLanguageCode: event.arguments.language,
-        Text: event.arguments.text
+        Text: event.arguments.text,
       };
       translate.translateText(translateParams, function(err, data) {
         if (err) {
@@ -121,7 +121,7 @@ exports.handler = (event, context, callback) => {
         } else {
           // successful response
           let result = {
-            response: data
+            response: data,
           };
           callback(null, result);
         }
@@ -129,7 +129,7 @@ exports.handler = (event, context, callback) => {
       break;
     case "comprehend-language":
       const compLangParams = {
-        Text: event.arguments.text
+        Text: event.arguments.text,
       };
       comprehend.detectDominantLanguage(compLangParams, function(err, data) {
         if (err) {
@@ -138,7 +138,7 @@ exports.handler = (event, context, callback) => {
         } else {
           // successful response
           let result = {
-            response: data.Languages
+            response: data.Languages,
           };
           callback(null, result);
         }
@@ -147,7 +147,7 @@ exports.handler = (event, context, callback) => {
     case "comprehend-sentiment":
       const compSentParams = {
         LanguageCode: event.arguments.language,
-        Text: event.arguments.text
+        Text: event.arguments.text,
       };
       comprehend.detectSentiment(compSentParams, function(err, data) {
         if (err) {
@@ -156,7 +156,7 @@ exports.handler = (event, context, callback) => {
         } else {
           // successful response
           let result = {
-            response: data
+            response: data,
           };
           callback(null, result);
         }
@@ -165,7 +165,7 @@ exports.handler = (event, context, callback) => {
     case "comprehend-entities":
       const compEntParams = {
         LanguageCode: event.arguments.language,
-        Text: event.arguments.text
+        Text: event.arguments.text,
       };
       comprehend.detectEntities(compEntParams, function(err, data) {
         if (err) {
@@ -174,7 +174,7 @@ exports.handler = (event, context, callback) => {
         } else {
           // successful response
           let result = {
-            response: data.Entities
+            response: data.Entities,
           };
           callback(null, result);
         }
@@ -191,7 +191,7 @@ function send2S3(data, key, bucket) {
   let params = {
     Bucket: bucket,
     Key: key + ".mp3",
-    Body: data
+    Body: data,
   };
   s3.putObject(params)
     .on("success", function(response) {
@@ -211,7 +211,7 @@ function send2S3(data, key, bucket) {
 function getUrl(key, bucket) {
   let params = {
     Bucket: bucket,
-    Key: key + ".mp3"
+    Key: key + ".mp3",
   };
   let url = s3.getSignedUrl("getObject", params);
   console.log("File " + params.Key + " saved to S3");

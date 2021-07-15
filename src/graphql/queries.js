@@ -1,4 +1,4 @@
-import gql from 'graphql-tag'
+import gql from "graphql-tag";
 
 export const getUser = gql`
   query GetUser($id: ID!) {
@@ -29,10 +29,10 @@ export const getUser = gql`
       }
     }
   }
-`
+`;
 
 export const getConvo = gql`
-  query GetConvo($id: ID!, $nextToken: String) {
+  query GetConvo($id: ID!, $nextToken: Int) {
     getConvo(id: $id) {
       id
       messages(sortDirection: DESC, limit: 20, nextToken: $nextToken) {
@@ -59,7 +59,7 @@ export const getConvo = gql`
       }
     }
   }
-`
+`;
 
 export const searchMessages = gql`
   query SearchMessages(
@@ -96,7 +96,7 @@ export const searchMessages = gql`
       nextToken
     }
   }
-`
+`;
 export const searchUsers = gql`
   query SearchUsers(
     $filter: SearchableUserFilterInput
@@ -127,7 +127,7 @@ export const searchUsers = gql`
       nextToken
     }
   }
-`
+`;
 export const searchConvoLinks = gql`
   query SearchConvoLinks(
     $filter: SearchableConvoLinkFilterInput
@@ -160,4 +160,4 @@ export const searchConvoLinks = gql`
       nextToken
     }
   }
-`
+`;

@@ -4,7 +4,7 @@
   "fulfillmentActivity": {
     "type": "CodeHook",
     "codeHook": {
-      "uri": "arn:aws:lambda:eu-west-2:465277319203:function:amplify-awsappsyncchatstarte-chatenv-2215-MovieBot-W1YOCF56C3XJ",
+      "uri": "arn:aws:lambda:eu-west-2:465277319203:function:amplify-awsappsyncchatstarte-starter-1858-MovieBot-DcmLRp3c7LRQ",
       "messageVersion": "1.0"
     }
   },

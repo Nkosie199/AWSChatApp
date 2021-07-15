@@ -1,12 +1,12 @@
-import React from 'react'
-import Downshift from 'downshift'
-import { Scrollbars } from 'react-custom-scrollbars'
-import PropTypes from 'prop-types'
-import { onUpdateConvoLink } from '../graphql/subscriptions'
-import _cloneDeep from 'lodash.clonedeep'
-import _debounce from 'lodash.debounce'
-import SideList from './ConvoSideList'
-import { SearchResultListWithData } from './SearchResultList'
+import React from "react";
+import Downshift from "downshift";
+import { Scrollbars } from "react-custom-scrollbars";
+import PropTypes from "prop-types";
+import { onUpdateConvoLink } from "../graphql/subscriptions";
+import _cloneDeep from "lodash.clonedeep";
+import _debounce from "lodash.debounce";
+import SideList from "./ConvoSideList";
+import { SearchResultListWithData } from "./SearchResultList";
 
 const SearchBar = ({ propsFn }) => (
   <div className="px-3 py-2 section">
@@ -22,22 +22,22 @@ const SearchBar = ({ propsFn }) => (
       </div>
     </form>
   </div>
-)
+);
 SearchBar.propTypes = {
-  propsFn: PropTypes.func.isRequired
-}
+  propsFn: PropTypes.func.isRequired,
+};
 
 export default class SideBar extends React.Component {
   state = {
-    searchTerm: null
-  }
+    searchTerm: null,
+  };
 
   componentDidMount() {
     if (this.props.userId) {
       this.unsubscribe = createSubForConvoList(
         this.props.subscribeToMore,
         this.props.userId
-      )
+      );
     }
   }
 
@@ -46,59 +46,59 @@ export default class SideBar extends React.Component {
       this.unsubscribe = createSubForConvoList(
         this.props.subscribeToMore,
         this.props.userId
-      )
+      );
     }
   }
 
   componentWillUnmount() {
     if (this.unsubscribe) {
-      this.unsubscribe()
+      this.unsubscribe();
     }
   }
 
   onStateChange = _debounce(
     ({ inputValue }) => {
-      if (typeof inputValue !== 'undefined') {
-        this.setState({ searchTerm: inputValue.trim() })
+      if (typeof inputValue !== "undefined") {
+        this.setState({ searchTerm: inputValue.trim() });
       }
     },
     250,
     { maxWait: 500 }
-  )
+  );
 
-  onChange = selection => {
-    this.props.onChange(selection)
+  onChange = (selection) => {
+    this.props.onChange(selection);
     // clear search
-  }
+  };
 
   stateReducer = (state, changes) => {
-    // console.log(state, changes)
+    console.log(state, changes);
     switch (changes.type) {
       case Downshift.stateChangeTypes.blurInput:
       case Downshift.stateChangeTypes.mouseUp:
       case Downshift.stateChangeTypes.keyDownEnter:
       case Downshift.stateChangeTypes.itemMouseEnter:
-        // console.log('ignore', changes.type)
+        console.log("ignore", changes.type);
         return {
           ...changes,
           isOpen: state.isOpen,
-          inputValue: state.inputValue
-        }
+          inputValue: state.inputValue,
+        };
       case Downshift.stateChangeTypes.keyDownEscape:
-        return { ...changes, isOpen: false, inputValue: '' }
+        return { ...changes, isOpen: false, inputValue: "" };
       default:
-        return changes
+        return changes;
     }
-  }
+  };
 
   render() {
-    const conversations = this.props.conversations
+    const conversations = this.props.conversations;
     return (
       <Downshift
         defaultIsOpen={false}
         onChange={this.onChange}
         onStateChange={this.onStateChange}
-        itemToString={item => (item ? '' : '')}
+        itemToString={(item) => (item ? "" : "")}
         stateReducer={this.stateReducer}
       >
         {({
@@ -109,7 +109,7 @@ export default class SideBar extends React.Component {
           isOpen,
           inputValue,
           highlightedIndex,
-          selectedItem
+          selectedItem,
         }) => (
           <div className="downshift-inner">
             <SearchBar propsFn={getInputProps} />
@@ -122,7 +122,7 @@ export default class SideBar extends React.Component {
                       getItemProps,
                       conversations,
                       selectedItem,
-                      term: this.state.searchTerm
+                      term: this.state.searchTerm,
                     }}
                   />
                 ) : (
@@ -131,7 +131,7 @@ export default class SideBar extends React.Component {
                       getMenuProps,
                       getItemProps,
                       selectedItem,
-                      conversations
+                      conversations,
                     }}
                   />
                 )}
@@ -140,32 +140,32 @@ export default class SideBar extends React.Component {
           </div>
         )}
       </Downshift>
-    )
+    );
   }
 }
 SideBar.propTypes = {
   userId: PropTypes.string,
   subscribeToMore: PropTypes.func,
   conversations: PropTypes.object,
-  onChange: PropTypes.func.isRequired
-}
+  onChange: PropTypes.func.isRequired,
+};
 
 function createSubForConvoList(subscribeToMore, userId) {
   return subscribeToMore({
     document: onUpdateConvoLink,
-    variables: { convoLinkUserId: userId, status: 'READY' },
+    variables: { convoLinkUserId: userId, status: "READY" },
     updateQuery: (
       prev,
       {
         subscriptionData: {
-          data: { onUpdateConvoLink: newConvo }
-        }
+          data: { onUpdateConvoLink: newConvo },
+        },
       }
     ) => {
-      console.log('updateQuery on convo subscription', prev, newConvo)
-      const current = _cloneDeep(prev)
-      current.getUser.userConversations.items.unshift(newConvo)
-      return current
-    }
-  })
+      console.log("updateQuery on convo subscription", prev, newConvo);
+      const current = _cloneDeep(prev);
+      current.getUser.userConversations.items.unshift(newConvo);
+      return current;
+    },
+  });
 }

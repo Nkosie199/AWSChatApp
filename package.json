@@ -28,6 +28,7 @@
     "react-spinners": "^0.8.1",
     "react-tiny-popover": "^4.0.0",
     "reactstrap": "^8.4.1",
+    "recompose": "^0.30.0",
     "rxjs": "^6.5.4",
     "uuid": "^7.0.2"
   },
@@ -49,7 +50,6 @@
   ],
   "devDependencies": {
     "babel-core": "^6.26.3",
-    "babel-eslint": "^10.1.0",
     "babel-runtime": "^6.26.0",
     "eslint-config-prettier": "^6.10.1",
     "eslint-config-standard": "^14.1.1",

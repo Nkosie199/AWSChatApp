@@ -1,48 +1,48 @@
 /* global FileReader */
-import React from 'react'
-import PropTypes from 'prop-types'
-import { createMessage } from '../graphql/mutations'
-import { getConvo } from '../graphql/queries'
-import { graphql } from 'react-apollo'
-import uuid from 'uuid/v4'
-import { Popover, PopoverHeader, PopoverBody } from 'reactstrap'
+import React from "react";
+import PropTypes from "prop-types";
+import { createMessage } from "../graphql/mutations";
+import { getConvo } from "../graphql/queries";
+import { graphql } from "react-apollo";
+import uuid from "uuid/v4";
+import { Popover, PopoverHeader, PopoverBody } from "reactstrap";
 
-import { Auth } from 'aws-amplify'
-import awsmobile from '../aws-exports'
+import { Auth } from "aws-amplify";
+import awsmobile from "../aws-exports";
 
 const EMPTY_FILE = {
   bucket: null,
   region: null,
   key: null,
-  __typename: 'S3Object'
-}
-const VISIBILITY = 'protected'
+  __typename: "S3Object",
+};
+const VISIBILITY = "protected";
 
 async function getFile(selectedFile) {
   if (!selectedFile) {
-    return null
+    return null;
   }
 
-  const bucket = awsmobile.aws_user_files_s3_bucket
-  const region = awsmobile.aws_user_files_s3_bucket_region
-  const { name: fileName, type: mimeType } = selectedFile
-  const [, , , extension] = /([^.]+)(\.(\w+))?$/.exec(fileName)
+  const bucket = awsmobile.aws_user_files_s3_bucket;
+  const region = awsmobile.aws_user_files_s3_bucket_region;
+  const { name: fileName, type: mimeType } = selectedFile;
+  const [, , , extension] = /([^.]+)(\.(\w+))?$/.exec(fileName);
 
-  const { identityId } = await Auth.currentCredentials()
+  const { identityId } = await Auth.currentCredentials();
   const key = `${VISIBILITY}/${identityId}/${uuid()}${extension &&
-    '.'}${extension}`
+    "."}${extension}`;
 
-  console.log(fileName, mimeType, extension, key)
+  console.log(fileName, mimeType, extension, key);
 
   const file = {
     bucket,
     key,
     region,
     mimeType,
-    localUri: selectedFile
-  }
+    localUri: selectedFile,
+  };
 
-  return file
+  return file;
 }
 
 const doCreateMessage = (
@@ -52,9 +52,9 @@ const doCreateMessage = (
   convoId,
   userId
 ) => async () => {
-  let contentTrim = content.trim()
+  let contentTrim = content.trim();
   if (!contentTrim.length && file) {
-    contentTrim = ' '
+    contentTrim = " ";
   }
 
   const variables = {
@@ -64,83 +64,83 @@ const doCreateMessage = (
       messageConversationId: convoId,
       isSent: true,
       chatbot: false,
-      ...(file ? { file } : {})
-    }
-  }
+      ...(file ? { file } : {}),
+    },
+  };
 
   mutation({
     variables,
     optimisticResponse: {
       createMessage: {
-        __typename: 'Message',
+        __typename: "Message",
         ...variables.input,
         ...(file ? { file: EMPTY_FILE } : { file: null }),
         owner: userId,
         isSent: false,
         conversation: {
-          __typename: 'Conversation',
+          __typename: "Conversation",
           id: convoId,
-          name: 'n/a',
-          createdAt: 'n/a'
+          name: "n/a",
+          createdAt: "n/a",
         },
-        createdAt: new Date().toISOString()
-      }
+        createdAt: new Date().toISOString(),
+      },
     },
     update: (proxy, { data: { createMessage: newMsg } }) => {
       const QUERY = {
         query: getConvo,
-        variables: { id: convoId }
-      }
-      const prev = proxy.readQuery(QUERY)
-      // console.log('view prev', JSON.stringify(prev, null, 2))
+        variables: { id: convoId },
+      };
+      const prev = proxy.readQuery(QUERY);
+      console.log("view prev", JSON.stringify(prev, null, 2));
       const data = {
         getConvo: {
           ...prev.getConvo,
           messages: {
             ...prev.getConvo.messages,
-            items: [newMsg, ...prev.getConvo.messages.items]
-          }
-        }
-      }
-      // console.log('view data', JSON.stringify(data, null, 2))
-      proxy.writeQuery({ ...QUERY, data })
-    }
-  })
-}
+            items: [newMsg, ...prev.getConvo.messages.items],
+          },
+        },
+      };
+      console.log("view data", JSON.stringify(data, null, 2));
+      proxy.writeQuery({ ...QUERY, data });
+    },
+  });
+};
 
 export default class InputBar extends React.Component {
-  state = { content: '', popoverOpen: false }
-  handleChange = e => {
-    this.setState({ content: e.target.value })
-  }
+  state = { content: "", popoverOpen: false };
+  handleChange = (e) => {
+    this.setState({ content: e.target.value });
+  };
 
-  handleFileChange = e => {
-    const file = e.target.files[0]
-    console.log(file)
-    if (file && file.type.startsWith('image/')) {
-      const reader = new FileReader()
-      const self = this
+  handleFileChange = (e) => {
+    const file = e.target.files[0];
+    console.log(file);
+    if (file && file.type.startsWith("image/")) {
+      const reader = new FileReader();
+      const self = this;
       reader.onload = function(e) {
-        self.setState({ popoverOpen: true, filePreviewSrc: this.result })
-      }
-      reader.readAsDataURL(file)
-      this.setState({ file })
+        self.setState({ popoverOpen: true, filePreviewSrc: this.result });
+      };
+      reader.readAsDataURL(file);
+      this.setState({ file });
     }
-  }
+  };
 
-  handleSubmit = async e => {
-    console.log('submit')
-    e.preventDefault()
+  handleSubmit = async (e) => {
+    console.log("submit");
+    e.preventDefault();
 
-    const { content, file: selectedFile } = this.state
-    const { conversation, userId, createMessage } = this.props
+    const { content, file: selectedFile } = this.state;
+    const { conversation, userId, createMessage } = this.props;
 
     if (content.trim().length === 0 && !selectedFile) {
-      return
+      return;
     }
 
-    const file = await getFile(selectedFile)
-    console.log('file for s3', file)
+    const file = await getFile(selectedFile);
+    console.log("file for s3", file);
 
     const mutator = doCreateMessage(
       createMessage,
@@ -148,20 +148,23 @@ export default class InputBar extends React.Component {
       file,
       conversation.id,
       userId
-    )
+    );
 
-    this.setState({ content: '', file: undefined, popoverOpen: false }, mutator)
-  }
+    this.setState(
+      { content: "", file: undefined, popoverOpen: false },
+      mutator
+    );
+  };
 
   close = () => {
-    this.setState({ file: undefined, popoverOpen: false })
-  }
+    this.setState({ file: undefined, popoverOpen: false });
+  };
 
   render() {
-    const { filePreviewSrc } = this.state
-    const disabled = !this.props.conversation ? { disabled: 'disabled' } : {}
+    const { filePreviewSrc } = this.state;
+    const disabled = !this.props.conversation ? { disabled: "disabled" } : {};
     const imgBtnClass =
-      'btn btn-block ' + (this.state.file ? 'btn-success' : 'btn-primary')
+      "btn btn-block " + (this.state.file ? "btn-success" : "btn-primary");
 
     return (
       <div className="entry">
@@ -220,17 +223,17 @@ export default class InputBar extends React.Component {
           </form>
         </div>
       </div>
-    )
+    );
   }
 }
 
 InputBar.propTypes = {
   createMessage: PropTypes.func,
   conversation: PropTypes.object,
-  userId: PropTypes.string
-}
+  userId: PropTypes.string,
+};
 
 const InputBarWithData = graphql(createMessage, {
-  name: 'createMessage'
-})(InputBar)
-export { InputBarWithData }
+  name: "createMessage",
+})(InputBar);
+export { InputBarWithData };
